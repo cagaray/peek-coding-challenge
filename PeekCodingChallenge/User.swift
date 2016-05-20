@@ -43,8 +43,9 @@ public struct User: CustomStringConvertible {
                 id = data?.valueForKeyPath(TwitterKey.ID) as? String
                 verified = data?.valueForKeyPath(TwitterKey.Verified)?.boolValue ?? false
                 if let urlString = data?.valueForKeyPath(TwitterKey.ProfileImageURL) as? String {
-                    let urlStringHTTPS = urlString.stringByReplacingOccurrencesOfString("http://", withString: "https://")
-                    profileImageURL = NSURL(string: urlStringHTTPS)
+                    //let urlStringHTTPS = urlString.stringByReplacingOccurrencesOfString("http://", withString: "https://")
+                    //profileImageURL = NSURL(string: urlStringHTTPS)
+                    profileImageURL = NSURL(string: urlString)
                     profileImageData = NSData(contentsOfURL: profileImageURL!)!
                 }
                 else {
