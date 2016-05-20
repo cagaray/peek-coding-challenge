@@ -17,6 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        //UINavigationBar.appearance().backgroundColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 100/100.0)
+        //UINavigationBar.appearance().barTintColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 100/100.0)
+        UINavigationBar.appearance().barTintColor = UIColor(red: 255/255.0, green: 231/255.0, blue: 76/255.0, alpha: 100/100.0)
+        UINavigationBar.appearance().tintColor = UIColor.whiteColor()
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 30)!, NSForegroundColorAttributeName: UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 100/100.0)]
         return true
     }
 
