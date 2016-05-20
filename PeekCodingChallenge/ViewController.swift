@@ -13,6 +13,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //Table view to display Twitter mentions of @Peek
     @IBOutlet weak var twitterMentionsTableView: UITableView!
     
+    @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
+    
     var twitterRequest: TwitterRequest? = TwitterRequest(search: "%40Peek", count: 10, .Recent, nil)
     var peekMentionsArray = [Tweet]()
     
@@ -20,13 +22,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(ViewController.handleRefresh(_:)), forControlEvents: UIControlEvents.ValueChanged)
         return refreshControl
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        activityIndicatorView.center = self.twitterMentionsTableView.center
+        activityIndicatorView.startAnimating()
         
         twitterMentionsTableView.delegate = self
         twitterMentionsTableView.dataSource = self
@@ -40,9 +44,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 self.peekMentionsArray.append(tweet)
             }
             self.twitterMentionsTableView.reloadData()
+            self.activityIndicatorView.stopAnimating()
+            self.twitterMentionsTableView.addSubview(self.refreshControl)
         }
-        
-        self.twitterMentionsTableView.addSubview(self.refreshControl)
         
     }
 
@@ -87,9 +91,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == peekMentionsArray.count-1{
-            refreshControl.beginRefreshing()
-            twitterRequest = self.twitterRequest!.requestForOlder
-            if twitterRequest != nil{
+            //refreshControl.beginRefreshing()
+            let twitterRequestForOlder = self.twitterRequest!.requestForOlder
+            if twitterRequestForOlder != nil{
+                twitterRequest = twitterRequestForOlder
                 twitterRequest!.fetchTweets{
                     (tweetArray: [Tweet]) in
                     print("\(tweetArray.count) Tweets retrieves from query")
@@ -100,7 +105,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     }
                     self.twitterMentionsTableView.reloadData()
                 }
-                refreshControl.endRefreshing()
+                //refreshControl.endRefreshing()
             }
             else{
                 print("No more tweets to show")
@@ -111,17 +116,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func handleRefresh(refreshControl: UIRefreshControl) {
         //TODO: I should be using twitterRequest instead of twitterRequestForNewer.
         let twitterRequestForNewer = self.twitterRequest!.requestForNewer
-        twitterRequestForNewer!.fetchTweets{
-            (tweetArray: [Tweet]) in
-            print("\(tweetArray.count) Tweets retrieves from query")
-            for tweet in tweetArray {
-                //print("\(tweet.user.screenName) - \(tweet.text)")
-                //print("\(tweet.user.profileImageURL)")
-                self.peekMentionsArray.insert(tweet, atIndex: 0)
+        if twitterRequestForNewer != nil {
+            twitterRequest = twitterRequestForNewer
+            twitterRequest!.fetchTweets{
+                (tweetArray: [Tweet]) in
+                print("\(tweetArray.count) Tweets retrieves from query")
+                for tweet in tweetArray {
+                    //print("\(tweet.user.screenName) - \(tweet.text)")
+                    //print("\(tweet.user.profileImageURL)")
+                    self.peekMentionsArray.insert(tweet, atIndex: 0)
+                }
+                self.twitterMentionsTableView.reloadData()
+                refreshControl.endRefreshing()
             }
-            self.twitterMentionsTableView.reloadData()
+            refreshControl.endRefreshing()
         }
-        //self.twitterMentionsTableView.reloadData()
+        else {
+            print("No more tweets to show")
+        }
         refreshControl.endRefreshing()
     }
     
@@ -137,6 +149,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let retweetClosure = { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             let retweetItem = self.peekMentionsArray[indexPath.row]
             self.retweetRequest?.retweet(retweetItem)
+            self.twitterMentionsTableView.reloadData()
         }
         
         let deleteAction = UITableViewRowAction(style: .Default, title: "Delete", handler: deleteClosure)

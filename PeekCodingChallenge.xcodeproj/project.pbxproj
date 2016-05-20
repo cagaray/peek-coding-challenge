@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7A36B3A81CEF2371000EFADD /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A36B3A71CEF2371000EFADD /* LaunchScreenViewController.swift */; };
 		7A525EBE1CE6D73200FA5AA0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A525EBD1CE6D73200FA5AA0 /* AppDelegate.swift */; };
 		7A525EC01CE6D73200FA5AA0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A525EBF1CE6D73200FA5AA0 /* ViewController.swift */; };
 		7A525EC31CE6D73200FA5AA0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A525EC11CE6D73200FA5AA0 /* Main.storyboard */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7A36B3A71CEF2371000EFADD /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		7A525EBA1CE6D73200FA5AA0 /* PeekCodingChallenge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PeekCodingChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A525EBD1CE6D73200FA5AA0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7A525EBF1CE6D73200FA5AA0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				7AA354B81CEBD43B0031C4B8 /* MediaItem.swift */,
 				7AA354BA1CEBDD060031C4B8 /* User.swift */,
 				7AA354BC1CEC31F40031C4B8 /* Tweet.swift */,
+				7A36B3A71CEF2371000EFADD /* LaunchScreenViewController.swift */,
 			);
 			path = PeekCodingChallenge;
 			sourceTree = "<group>";
@@ -285,6 +288,7 @@
 				7AA354AF1CEBB8440031C4B8 /* TwitterRequest.swift in Sources */,
 				7AA354B91CEBD43B0031C4B8 /* MediaItem.swift in Sources */,
 				7AA354BB1CEBDD060031C4B8 /* User.swift in Sources */,
+				7A36B3A81CEF2371000EFADD /* LaunchScreenViewController.swift in Sources */,
 				7AA354BD1CEC31F40031C4B8 /* Tweet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
