@@ -13,7 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //Table view to display Twitter mentions of @Peek
     @IBOutlet weak var twitterMentionsTableView: UITableView!
     
-    var twitterRequest: TwitterRequest? = TwitterRequest(search: "%40Peek", count: 5, .Recent, nil)
+    var twitterRequest: TwitterRequest? = TwitterRequest(search: "%40Peek", count: 10, .Recent, nil)
     var peekMentionsArray = [Tweet]()
     
     var retweetRequest: TwitterRequest? = TwitterRequest("statuses/retweet/")
@@ -62,15 +62,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = twitterMentionsTableView.dequeueReusableCellWithIdentifier("twitterMentionsCell", forIndexPath: indexPath) as! TwitterMentionsTableViewCell
         
-        cell.userNameLabel?.text = peekMentionsArray[indexPath.row].user.screenName
+        cell.userNameLabel?.text = "@" + peekMentionsArray[indexPath.row].user.screenName
         cell.tweetLabel?.text = peekMentionsArray[indexPath.row].text
         cell.userAvatarImageView.image = UIImage(data: peekMentionsArray[indexPath.row].user.profileImageData!)
         
         if indexPath.row % 2 == 0 {
-            cell.backgroundColor = UIColor.lightGrayColor()
+            cell.backgroundColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 100/100.0)
+            cell.tweetLabel.textColor = UIColor(red: 61/255.0, green: 165/255.0, blue: 217/255.0, alpha: 100/100.0)
+            cell.userNameLabel.textColor = UIColor(red: 61/255.0, green: 165/255.0, blue: 217/255.0, alpha: 100/100.0)
+
         }
         else {
-            cell.backgroundColor = UIColor.whiteColor()
+            cell.backgroundColor = UIColor(red: 61/255.0, green: 165/255.0, blue: 217/255.0, alpha: 100/100.0)
+            cell.tweetLabel.textColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 100/100.0)
+            cell.userNameLabel.textColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 100/100.0)
         }
         
         return cell
