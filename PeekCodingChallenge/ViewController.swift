@@ -66,6 +66,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.tweetLabel?.text = peekMentionsArray[indexPath.row].text
         cell.userAvatarImageView.image = UIImage(data: peekMentionsArray[indexPath.row].user.profileImageData!)
         
+        if indexPath.row % 2 == 0 {
+            cell.backgroundColor = UIColor.lightGrayColor()
+        }
+        else {
+            cell.backgroundColor = UIColor.whiteColor()
+        }
+        
         return cell
     }
     
