@@ -16,6 +16,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var twitterRequest: TwitterRequest? = TwitterRequest(search: "%40Peek", count: 5, .Recent, nil)
     var peekMentionsArray = [Tweet]()
     
+    var retweetRequest: TwitterRequest? = TwitterRequest("statuses/retweet/")
+    
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -112,11 +114,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    }
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+        let deleteClosure = { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             self.peekMentionsArray.removeAtIndex(indexPath.row)
             self.twitterMentionsTableView.reloadData()
-            
         }
+        
+        let retweetClosure = { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+            let retweetItem = self.peekMentionsArray[indexPath.row]
+            self.retweetRequest?.retweet(retweetItem)
+        }
+        
+        let deleteAction = UITableViewRowAction(style: .Default, title: "Delete", handler: deleteClosure)
+        let retweetAction = UITableViewRowAction(style: .Normal, title: "Retweet", handler: retweetClosure)
+        
+        return [deleteAction, retweetAction]
     }
 
 

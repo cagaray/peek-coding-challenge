@@ -40,6 +40,7 @@ public class TwitterRequest
         static let ResultTypePopular = "popular"
         static let Geocode = "geocode"
         static let SearchForTweets = "search/tweets"
+        static let Retweet = "statuses/retweet/"
         static let MaxID = "max_id"
         static let SinceID = "since_id"
         struct SearchMetadata {
@@ -159,6 +160,34 @@ public class TwitterRequest
         }
     }
     
+    func performRetweetRequest(request: SLRequest) {
+        if let account = twitterAccount {
+            request.account = account
+            request.performRequestWithHandler { (jsonResponse, httpResponse, _) in
+                //TODO: Handle this
+                print("Retweeted")
+            }
+        } else {
+            let accountStore = ACAccountStore()
+            let twitterAccountType = accountStore.accountTypeWithAccountTypeIdentifier(ACAccountTypeIdentifierTwitter)
+            accountStore.requestAccessToAccountsWithType(twitterAccountType, options: nil) { (granted: Bool, _: NSError!) in
+                if granted {
+                    if let account = accountStore.accountsWithAccountType(twitterAccountType)?.last as? ACAccount {
+                        twitterAccount = account
+                        self.performRetweetRequest(request)
+                    } else {
+                        let error = "Couldn't discover Twitter account type."
+                        self.log(error)
+                    }
+                } else {
+                    let error = "Access to Twitter was not granted."
+                    self.log(error)
+                }
+            }
+        }
+    }
+
+    
     func performTwitterRequest(method: SLRequestMethod, handler: (PropertyList?) -> Void) {
         let jsonExtension = (self.requestType.rangeOfString(JSONExtension) == nil) ? JSONExtension : ""
         let request = SLRequest(
@@ -168,6 +197,17 @@ public class TwitterRequest
             parameters: self.parameters
         )
         performTwitterRequest(request, handler: handler)
+    }
+    
+    func performRetweetRequest(method: SLRequestMethod, tweetId: String){
+        let jsonExtension = (self.requestType.rangeOfString(JSONExtension) == nil) ? JSONExtension : ""
+        let request = SLRequest(
+            forServiceType: SLServiceTypeTwitter,
+            requestMethod: method,
+            URL: NSURL(string: "\(TwitterURLPrefix)\(self.requestType)\(tweetId)\(jsonExtension)"),
+            parameters: self.parameters
+        )
+        performRetweetRequest(request)
     }
     
     public func fetch(handler: (results: PropertyList?) -> Void) {
@@ -196,6 +236,11 @@ public class TwitterRequest
             }
             handler(tweets)
         }
+    }
+
+    public func retweet(tweet: Tweet) {
+        //TODO: Check when tweet id is null.
+        performRetweetRequest(SLRequestMethod.POST, tweetId: tweet.id!)
     }
     
     private func modifiedRequest(parametersToChange parametersToChange: Dictionary<String,String>, clearCount: Bool = false) -> TwitterRequest {
