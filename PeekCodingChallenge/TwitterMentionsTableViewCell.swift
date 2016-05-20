@@ -9,15 +9,15 @@
 import UIKit
 
 class TwitterMentionsTableViewCell: UITableViewCell {
-
+    
+    //MARK: - Elements of cell to show twitter data.
     //Image view for user avatar
     @IBOutlet weak var userAvatarImageView: UIImageView!
-    
     //Label to display user name (twitter handle)
     @IBOutlet weak var userNameLabel: UILabel!
-    
     //Label to display tweet
     @IBOutlet weak var tweetLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -10,9 +10,9 @@ import Foundation
 
 /*
 MARK: Structure for media objects attached to a tweet with an url.
+Based on a work at cs193p.stanford.edu.
 */
 
-//TODO: Check if I can remove this structure.
 public struct MediaItem {
     public let url: NSURL!
     public let aspectRatio: Double

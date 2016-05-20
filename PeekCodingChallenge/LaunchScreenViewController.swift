@@ -8,6 +8,10 @@
 
 import UIKit
 
+/*
+MARK: Splash screen for app
+*/
+
 class LaunchScreenViewController: UIViewController {
     
     override func viewDidLoad() {

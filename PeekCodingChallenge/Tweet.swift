@@ -10,6 +10,7 @@ import Foundation
 
 /*
 MARK: Class to represent the conternt of a Tweet.
+Based on a work at cs193p.stanford.edu.
 */
 
 public class Tweet: CustomStringConvertible {
@@ -18,9 +19,9 @@ public class Tweet: CustomStringConvertible {
     public let created: NSDate!
     public let id: String?
     public let media: [MediaItem]
-    public let hashtags: [IndexedKeyword] //DO I NEED THIS??
-    public let urls: [IndexedKeyword] //DO I NEED THIS??
-    public let userMentions: [IndexedKeyword] //DO I NEED THIS??
+    public let hashtags: [IndexedKeyword]
+    public let urls: [IndexedKeyword]
+    public let userMentions: [IndexedKeyword]
     
     struct TwitterKey {
         static let User = "user"

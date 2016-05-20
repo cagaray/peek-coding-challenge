@@ -9,10 +9,10 @@
 import Foundation
 
 /*
- MARK: Structure with data for a Twitter user.
+MARK: Structure with data for a Twitter user.
+Based on a work at cs193p.stanford.edu.
  */
 
-//TODO: Check if I can remove this class.
 public struct User: CustomStringConvertible {
     public let screenName: String
     public let name: String
@@ -22,7 +22,6 @@ public struct User: CustomStringConvertible {
     public let id: String?
     
     public var description: String {
-        //WATCH IT: I change from var to let.
         let v = verified ? " ✅" : ""
         return "@\(screenName)(\(name))\(v)"
     }
@@ -43,8 +42,6 @@ public struct User: CustomStringConvertible {
                 id = data?.valueForKeyPath(TwitterKey.ID) as? String
                 verified = data?.valueForKeyPath(TwitterKey.Verified)?.boolValue ?? false
                 if let urlString = data?.valueForKeyPath(TwitterKey.ProfileImageURL) as? String {
-                    //let urlStringHTTPS = urlString.stringByReplacingOccurrencesOfString("http://", withString: "https://")
-                    //profileImageURL = NSURL(string: urlStringHTTPS)
                     profileImageURL = NSURL(string: urlString)
                     profileImageData = NSData(contentsOfURL: profileImageURL!)!
                 }
@@ -52,7 +49,6 @@ public struct User: CustomStringConvertible {
                     profileImageURL = nil
                     profileImageData = nil
                 }
-                //TODO: These returns probably are not necessary.
                 return
             }
         }

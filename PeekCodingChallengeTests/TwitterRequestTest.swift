@@ -10,6 +10,9 @@ import XCTest
 @testable import PeekCodingChallenge
 
 class TwitterRequestTest: XCTestCase {
+    
+    var twitterRequest: TwitterRequest? = TwitterRequest(search: "%40peek", count: 7, .Mixed, nil)
+    var peekMentionsArray = [Tweet]()
 
     override func setUp() {
         super.setUp()
@@ -34,15 +37,12 @@ class TwitterRequestTest: XCTestCase {
     }
     
     func testFetchTweets(){
-        print("teeeest")
-        let twitterRequest = TwitterRequest(search: "%40Peek", count: 0, .Mixed, nil)
-        twitterRequest.fetchTweets{
+        twitterRequest!.fetchTweets{
             (tweetArray: [Tweet]) in
             for tweet in tweetArray {
-                print("holaaaa")
-                print("\(tweet)")
+                self.peekMentionsArray.append(tweet)
             }
-            
+            XCTAssertEqual(self.peekMentionsArray.count, 7)
         }
     }
 
