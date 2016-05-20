@@ -110,6 +110,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //self.twitterMentionsTableView.reloadData()
         refreshControl.endRefreshing()
     }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            self.peekMentionsArray.removeAtIndex(indexPath.row)
+            self.twitterMentionsTableView.reloadData()
+            
+        }
+    }
 
 
 }
